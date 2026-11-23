@@ -4,6 +4,8 @@ import { EMOTIONS } from '../constants/emotions';
 import PrimaryButton from '../components/PrimaryButton';
 import EmotionButton from '../components/EmotionButton';
 
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8081';
+
 const RecordPage = () => {
   const navigate = useNavigate();
   const [content, setContent] = useState('');
@@ -35,8 +37,9 @@ const RecordPage = () => {
     setApiError('');
 
     try {
-      const response = await fetch('/api/mind-cards/reinterpret', {
+      const response = await fetch(`${BACKEND_URL}/api/mind-cards/reinterpret`, {
         method: 'POST',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },

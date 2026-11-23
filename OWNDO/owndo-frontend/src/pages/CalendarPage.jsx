@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { EMOTIONS } from '../constants/emotions';
 
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8081';
+
 const CalendarPage = () => {
   const navigate = useNavigate();
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -10,9 +12,9 @@ const CalendarPage = () => {
   useEffect(() => {
   const fetchRecords = async () => {
     try {
-      const response = await fetch(
-        'http://localhost:5173/api/mind-cards'
-      );
+      const response = await fetch(`${BACKEND_URL}/api/mind-cards`, {
+        credentials: 'include',
+      });
 
       if (!response.ok) {
         throw new Error('마인드카드 조회 실패');
@@ -64,7 +66,8 @@ const CalendarPage = () => {
 
   try {
     const response = await fetch(
-      `http://localhost:5173/api/mind-cards/date/${targetDateStr}`
+        `${BACKEND_URL}/api/mind-cards/date/${targetDateStr}`,
+        { credentials: 'include' }
     );
 
     if (!response.ok) {
